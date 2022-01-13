@@ -1,5 +1,3 @@
 WIDTH = 1920
 HEIGHT = 1080
 LOAD_TIME = 5
-MAX_CON = 6
-HUB_URL = "http://192.168.0.101:4444/wd/hub"
