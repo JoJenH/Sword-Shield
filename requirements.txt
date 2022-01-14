@@ -1,3 +1,4 @@
 pyppeteer==0.2.6
 progress==1.6
 sqlalchemy==1.4.29
+pickle==0.75
