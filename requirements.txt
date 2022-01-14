@@ -4,4 +4,8 @@ sqlalchemy==1.4.29
 pickle==0.75
 chardet==4.0.0
 bs4==4.10.0
-numpy==1.21.5
+numpy==1.16.4
+paddlehub==2.0.4          
+paddlenlp==2.0.1          
+paddlepaddle==2.0.2
+visualdl==2.2.0 
