@@ -1,9 +1,9 @@
 pyppeteer==0.2.6
 progress==1.6
 sqlalchemy==1.4.29
-pickle==0.75
+pickleshare==0.7.5
 chardet==4.0.0
-bs4==4.10.0
+bs4
 numpy==1.16.4
 paddlehub==2.0.4          
 paddlenlp==2.0.1          

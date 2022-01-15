@@ -59,5 +59,5 @@ def find_from_tree(text):
 
 
 if __name__ == '__main__':
-    print(find_from_tree(open("2.txt", encoding="utf-8").read()))
+    print(find_from_tree(open("Data/text2test.txt", encoding="utf-8").read()))
     # create_tree_by("1.txt")
