@@ -1,23 +1,10 @@
-from cProfile import label
-import os
-import sys
-import codecs
-import chardet
-import shutil
-import time
-from tqdm import tqdm, trange
 from bs4 import BeautifulSoup
-import re
-from html.parser import HTMLParser
-from functools import partial
 import numpy as np
 import paddle
 import paddlenlp as ppnlp
 from paddlenlp.data import Stack, Pad, Tuple
 import paddle.nn.functional as F
-import paddle.nn as nn
 from visualdl import LogWriter
-import random
 from dataset import TagsDataset
 
 class Sword():
@@ -250,4 +237,6 @@ data = []
 data.append(','.join(tags))
 
 s = Sword()
-s.predict(data, batch_size=8)
+r = s.predict(data, batch_size=8)
+for idx, text in enumerate(data):
+    print('预测网页: {} \n网页标签: {}'.format("https://www.csdn.net", r[idx]))

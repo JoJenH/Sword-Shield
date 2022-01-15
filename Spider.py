@@ -1,5 +1,4 @@
 import asyncio
-import time
 from pyppeteer import launch
 from config.config import *
 from progress.bar import Bar
@@ -26,4 +25,5 @@ def spider(url_list):
     task = [get_page(url) for url in url_list]
     asyncio.get_event_loop().run_until_complete(asyncio.gather(*task))
     return result
-    
+
+print(spider(["http://www.baidu.com", "http://qq.com", "http://www.zhihu.com"]))
