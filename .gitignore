@@ -9,3 +9,4 @@ pyvenv.cfg
 static_graph_params.pdiparams
 static_graph_params.pdiparams.info
 static_graph_params.pdmodel
+env/*

@@ -91,6 +91,7 @@ class Sword():
             evallst = txt_to_list(self.EVAL_DATA)
             testlst = txt_to_list(self.TEST_DATA)
 
+            # TODO 仅为测试用例，共八条
             return [TagsDataset(lst[:8]) for lst in [trainlst, evallst, testlst]]
 
         train_ds, dev_ds, test_ds = _get_datasets()
@@ -225,18 +226,23 @@ class Sword():
             results.extend(labels)
         return results
 
-import requests
-# 获取某知名网站首页链接
-r = requests.get("https://www.csdn.net")
-demo = r.text
-soup=BeautifulSoup(demo,"html.parser")
-tags = []
-for tag in soup.find_all(True):
-	tags.append(tag.name)
-data = []
-data.append(','.join(tags))
+def test():
+    import requests
+    # 获取某知名网站首页链接
+    r = requests.get("https://www.csdn.net")
+    demo = r.text
+    soup=BeautifulSoup(demo,"html.parser")
+    tags = []
+    for tag in soup.find_all(True):
+        tags.append(tag.name)
+    data = []
+    data.append(','.join(tags))
 
-s = Sword()
-r = s.predict(data, batch_size=8)
-for idx, text in enumerate(data):
-    print('预测网页: {} \n网页标签: {}'.format("https://www.csdn.net", r[idx]))
+    s = Sword()
+    r = s.predict(data, batch_size=8)
+    for idx, text in enumerate(data):
+        print('预测网页: {} \n网页标签: {}'.format("https://www.csdn.net", r[idx]))
+
+def train():
+    Sword(is_predict=False).train()
+test()

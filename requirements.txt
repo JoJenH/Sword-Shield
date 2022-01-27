@@ -4,7 +4,6 @@ sqlalchemy==1.4.29
 pickleshare==0.7.5
 chardet==4.0.0
 bs4
-numpy==1.22.1       
 paddlenlp==2.0.1          
 paddlepaddle==2.0.2
 visualdl==2.2.0 
