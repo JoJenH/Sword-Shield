@@ -1,4 +1,3 @@
-from progress.bar import Bar
 import pickle
 
 keyword_tree = pickle.load(open("Data/keyword_tree.pickle", "rb"))
@@ -7,9 +6,7 @@ def create_tree_by(filename):
     global keyword_tree
     with open(filename, encoding="utf-8") as f:
         f = f.readlines()
-        bar = Bar(max=len(f), suffix='进度%(index)d/%(max)d 已完成%(percent)d%%', bar_prefix = '[', bar_suffix = ']', empty_fill = '-', fill = '>')
         for line in f:
-            bar.next()
             line = line.strip()
             keyword = line.lower()
             if not keyword:
@@ -30,7 +27,6 @@ def find_from_tree(text):
     text = text.lower()
     keywords = []
     keyword = ""
-    bar = Bar(max=len(text), suffix='进度%(index)d/%(max)d 已完成%(percent)d%%', bar_prefix = '[', bar_suffix = ']', empty_fill = '-', fill = '>')
 
     tree = keyword_tree
 
@@ -41,7 +37,6 @@ def find_from_tree(text):
         if char not in tree:
             if tree is keyword_tree:
                 i += 1
-                bar.next()
 
             tree = keyword_tree
             keyword = ""
@@ -54,9 +49,7 @@ def find_from_tree(text):
             keywords.append(keyword)
             keyword = ""
         i += 1
-        bar.next()
     return keywords
-
 
 if __name__ == '__main__':
     print(find_from_tree(open("Data/text2test.txt", encoding="utf-8").read()))

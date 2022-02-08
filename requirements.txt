@@ -1,4 +1,4 @@
-pyppeteer==0.2.6
+pyppeteer==1.0.2
 progress==1.6
 sqlalchemy==1.4.29
 pickleshare==0.7.5

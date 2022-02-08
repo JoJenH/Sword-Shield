@@ -225,6 +225,15 @@ class Sword():
             labels = [label_map[i] for i in idx]
             results.extend(labels)
         return results
+    
+    def sword(self, text):
+        soup=BeautifulSoup(text,"html.parser")
+        tags = []
+        for tag in soup.find_all(True):
+            tags.append(tag.name)
+        data = []
+        data.append(','.join(tags))
+        return self.predict(data, batch_size=8)[0]
 
 def test():
     import requests
@@ -245,4 +254,3 @@ def test():
 
 def train():
     Sword(is_predict=False).train()
-test()
