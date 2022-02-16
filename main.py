@@ -2,7 +2,6 @@ from unittest import result
 from Func import *
 from time import time
 
-from NLP import sword
 
 url_list = [
     "http://www.baidu.com",
@@ -22,4 +21,3 @@ if __name__ == '__main__':
         result[url]["sword"] = sword(response[url])
 
     print(time() - t)
-    

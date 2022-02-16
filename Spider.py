@@ -1,7 +1,6 @@
 import asyncio
 from pyppeteer import launch
 from config.config import *
-from progress.bar import Bar
 
 
 def spider(url_list):
@@ -9,8 +8,9 @@ def spider(url_list):
     async def get_page(url):
         try:
             browser = await launch(
-                args=['--disable-infobars', f'--window-size={WIDTH},{HEIGHT}',  '--blink-settings=imagesEnabled=false'],
-                executablePath = './bin/chrome-win32/chrome.exe'
+                ignoreHTTPSErrors=True,
+                args=['--disable-infobars', f'--window-size={WIDTH},{HEIGHT}',  '--blink-settings=imagesEnabled=false', '--no-sandbox'],
+                executablePath = './bin/chrome-linux/chrome'
             )
             page = await browser.newPage()
             await page.goto(url)
