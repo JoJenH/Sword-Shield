@@ -21,3 +21,5 @@ if __name__ == '__main__':
         result[url]["sword"] = sword(response[url])
 
     print(time() - t)
+
+    print(result)
