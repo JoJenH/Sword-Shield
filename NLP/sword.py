@@ -5,7 +5,8 @@ import paddlenlp as ppnlp
 from paddlenlp.data import Stack, Pad, Tuple
 import paddle.nn.functional as F
 from visualdl import LogWriter
-from dataset import TagsDataset
+from NLP.dataset import TagsDataset
+# from dataset import TagsDataset
 
 class Sword():
     LABELS = ["0", "1"]
@@ -61,13 +62,13 @@ class Sword():
                 label_map[l] = i
 
             label = label_map[label]
-            label = np.array([label], dtype="int64")
+            label = np.array([label], dtype="int")
             return input_ids, token_type_ids, label
         else:
             return input_ids, token_type_ids
 
     def _create_dataloader(self, dataset, batch_size=1, is_train=False):
-        collate_fn = lambda samples, fn=Tuple(Pad(axis=0,pad_val=self.tokenizer.pad_token_id), Pad(axis=0, pad_val=self.tokenizer.pad_token_id), Stack(dtype="int64")):[data for data in fn(samples)]
+        collate_fn = lambda samples, fn=Tuple(Pad(axis=0,pad_val=self.tokenizer.pad_token_id), Pad(axis=0, pad_val=self.tokenizer.pad_token_id), Stack(dtype="int")):[data for data in fn(samples)]
 
         dataset = TagsDataset(list(map(self._trans_data, dataset)))
 
@@ -149,7 +150,7 @@ class Sword():
         global_step = 0
         max_acc = 0
         with LogWriter(logdir="./log") as writer:
-            for epoch in range(1, self.EPOCHS + 1):    
+            for epoch in range(1, self.EPOCHS + 1):
                 for step, batch in enumerate(self.train_loader, start=1): #从训练数据迭代器中取数据
                     input_ids, segment_ids, labels = batch
                     logits = self.model(input_ids, segment_ids)
@@ -158,7 +159,7 @@ class Sword():
                     correct = self.metric.compute(probs, labels)
                     self.metric.update(correct)
                     acc = self.metric.accumulate()
-                    print("global step %d, epoch: %d, batch: %d, loss: %.5f, acc: %.5f" % (global_step, epoch, step, loss, acc))
+                    print("step %d, epoch: %d, batch: %d, loss: %.5f, acc: %.5f" % (global_step, epoch, step, loss, acc))
                     global_step += 1
                     if global_step % 100 == 0 :
                         print("global step %d, epoch: %d, batch: %d, loss: %.5f, acc: %.5f" % (global_step, epoch, step, loss, acc))
@@ -186,13 +187,12 @@ class Sword():
             self.model,
             input_spec=[
                 paddle.static.InputSpec(
-                    shape=[None, None], dtype="int64"),  # input_ids
+                    shape=[None, None], dtype="int"),  # input_ids
                 paddle.static.InputSpec(
-                    shape=[None, None], dtype="int64")  # segment_ids
+                    shape=[None, None], dtype="int")  # segment_ids
             ])
         # Save in static graph model.
         paddle.jit.save(model, './static_graph_params')
-        self.evaluate(self.model, self.eval_loader)
 
     def predict(self, data, batch_size=1):
         label_map = {0: '恶意网页', 1: '正常网页'}
@@ -254,3 +254,5 @@ def test():
 
 def train():
     Sword(is_predict=False).train()
+
+# train()

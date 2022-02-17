@@ -10,7 +10,8 @@ def spider(url_list):
             browser = await launch(
                 ignoreHTTPSErrors=True,
                 args=['--disable-infobars', f'--window-size={WIDTH},{HEIGHT}',  '--blink-settings=imagesEnabled=false', '--no-sandbox'],
-                executablePath = './bin/chrome-linux/chrome'
+                # executablePath = './bin/chrome-linux/chrome'
+                executablePath = './bin/chrome-win32/chrome.exe'
             )
             page = await browser.newPage()
             await page.goto(url)
@@ -19,6 +20,7 @@ def spider(url_list):
             result[url] = content
             await page.close()
         except Exception as e:
+            print(e)
             result[url] = f"ERROR:{e}"
 
     task = [get_page(url) for url in url_list]
