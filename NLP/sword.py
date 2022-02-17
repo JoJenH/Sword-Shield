@@ -5,8 +5,8 @@ import paddlenlp as ppnlp
 from paddlenlp.data import Stack, Pad, Tuple
 import paddle.nn.functional as F
 from visualdl import LogWriter
-from NLP.dataset import TagsDataset
-# from dataset import TagsDataset
+# from NLP.dataset import TagsDataset
+from dataset import TagsDataset
 
 class Sword():
     LABELS = ["0", "1"]
@@ -33,6 +33,7 @@ class Sword():
         
         if not is_predict:
             self.train_loader, self.eval_loader, self.test_loader = self._get_dataloaders()
+            print(self.train_loader, self.eval_loader, self.test_loader)
             #损失函数
             self.criterion = paddle.nn.loss.CrossEntropyLoss()
             #评估函数
@@ -68,7 +69,7 @@ class Sword():
             return input_ids, token_type_ids
 
     def _create_dataloader(self, dataset, batch_size=1, is_train=False):
-        collate_fn = lambda samples, fn=Tuple(Pad(axis=0,pad_val=self.tokenizer.pad_token_id), Pad(axis=0, pad_val=self.tokenizer.pad_token_id), Stack(dtype="int")):[data for data in fn(samples)]
+        collate_fn = lambda samples, fn=Tuple(Pad(axis=0,pad_val=self.tokenizer.pad_token_id), Pad(axis=0, pad_val=self.tokenizer.pad_token_id), Stack(dtype="int64")):[data for data in fn(samples)]
 
         dataset = TagsDataset(list(map(self._trans_data, dataset)))
 
@@ -255,4 +256,4 @@ def test():
 def train():
     Sword(is_predict=False).train()
 
-# train()
+train()
