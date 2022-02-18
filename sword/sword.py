@@ -157,22 +157,41 @@ class Trainer():
             print("time costed = {}s \n".format(round(time.time() - start, 5)))
 
 
-# class Sword():
-#     model = Bert_Model(BERT_PATH).to(DEVICE)
-#     model.load_state_dict(torch.load("best_bert_model.pth"))
-#     model.eval()
-#     label_true, label_pred = [], []
-#     i = 0
-#     with torch.no_grad():
-#         for ids, att, tpe, label in data_loader:
-#             print(ids, att, tpe, label)
-#             result_pred = model(ids.to(DEVICE), att.to(DEVICE), tpe.to(DEVICE))
-#             result_pred = torch.argmax(result_pred, dim=1).detach().cpu().numpy().tolist()
-#             label_pred.extend(result_pred)
-#             i += 1
-#             label_true.extend(label.squeeze().cpu().numpy().tolist())
-#     print("\n Test Accuracy = {} \n".format(accuracy_score(label_true, label_pred)))
-#     print(classification_report(label_true, label_pred, digits=4))
+class Sword():
+
+    def __init__(self) -> None:
+        model = Bert_Model(BERT_PATH).to(DEVICE)
+        model.load_state_dict(torch.load("best_bert_model.pth"))
+        model.eval()
+        self.model = model
+
+        self.tokenizer = BertTokenizer.from_pretrained(BERT_PATH)
+
+    def _process_data(self, tags):
+        encode_dict = self.tokenizer.encode_plus(text=tags, max_length=MAX_LEN,
+                                                padding="max_length", truncation=True)
+
+        input_ids = encode_dict["input_ids"]
+        input_types = encode_dict["token_type_ids"]
+        input_masks = encode_dict["attention_mask"]
+        return (torch.LongTensor(input_ids), torch.LongTensor(input_types), torch.LongTensor(input_masks))
+    
+    def predict(self, tags):
+        print(len(self._process_data(tags)))
+        return self.model(*self._process_data(tags))
+    # label_true, label_pred = [], []
+    # i = 0
+    # with torch.no_grad():
+    #     for ids, att, tpe, label in data_loader:
+    #         print(ids, att, tpe, label)
+    #         result_pred = model(ids.to(DEVICE), att.to(DEVICE), tpe.to(DEVICE))
+    #         result_pred = torch.argmax(result_pred, dim=1).detach().cpu().numpy().tolist()
+    #         label_pred.extend(result_pred)
+    #         i += 1
+    #         label_true.extend(label.squeeze().cpu().numpy().tolist())
+    # print("\n Test Accuracy = {} \n".format(accuracy_score(label_true, label_pred)))
+    # print(classification_report(label_true, label_pred, digits=4))
 
 
-Trainer()._predict()
+a = Sword().predict("html head script script meta title body script")
+print(a)
