@@ -1,5 +1,5 @@
 from unittest import result
-from Func import *
+from api import *
 from time import time
 
 
@@ -18,7 +18,7 @@ if __name__ == '__main__':
     for url in response:
         result[url] ={}
         result[url]["shield"] = shield(response[url])
-        result[url]["sword"] = sword(response[url])
+        # result[url]["sword"] = sword(response[url])
 
     print(time() - t)
 
