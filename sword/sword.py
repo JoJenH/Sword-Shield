@@ -1,3 +1,4 @@
+from unittest import result
 from tqdm import tqdm
 from sklearn.metrics import accuracy_score, classification_report
 from transformers import BertModel, BertTokenizer, BertConfig, AdamW, get_cosine_schedule_with_warmup
@@ -6,6 +7,7 @@ import torch.nn as nn
 import torch
 import time
 from config.config import *
+from bs4 import BeautifulSoup
 
 # DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 DEVICE = torch.device("cpu")
@@ -160,6 +162,8 @@ class Trainer():
 class Sword():
 
     def __init__(self) -> None:
+        self.label_map = {0: '恶意网页', 1: '正常网页'}
+
         model = Bert_Model(BERT_PATH).to(DEVICE)
         model.load_state_dict(torch.load("best_bert_model.pth"))
         model.eval()
@@ -167,7 +171,13 @@ class Sword():
 
         self.tokenizer = BertTokenizer.from_pretrained(BERT_PATH)
 
-    def _process_data(self, tags):
+    def _process_data(self, text):
+        soup=BeautifulSoup(text,"html.parser")
+        tags = []
+        for tag in soup.find_all(True):
+            tags.append(tag.name)
+        tags = " ".join(tags)
+
         encode_dict = self.tokenizer.encode_plus(text=tags, max_length=MAX_LEN,
                                                 padding="max_length", truncation=True)
 
@@ -178,11 +188,26 @@ class Sword():
     
     def __call__(self, tags):
         result =  self.model(*self._process_data(tags))
-        return torch.argmax(result, dim=1).detach().cpu().numpy().tolist()
+        label =  torch.argmax(result, dim=1).detach().cpu().numpy().tolist()[0]
+        return self.label_map[label]
+    
+    def _test(self, tags):
+        encode_dict = self.tokenizer.encode_plus(text=tags, max_length=MAX_LEN,
+                                                padding="max_length", truncation=True)
+
+        input_ids = encode_dict["input_ids"]
+        input_types = encode_dict["token_type_ids"]
+        input_masks = encode_dict["attention_mask"]
+        result = self.model(torch.LongTensor([input_ids, ]), torch.LongTensor([input_types, ]), torch.LongTensor([input_masks, ]))
+        label =  torch.argmax(result, dim=1).detach().cpu().numpy().tolist()[0]
+        return self.label_map[label]
+        
 
 
-a = Sword()
-print(a("html head meta html head script script"))
+# a = Sword()
+# print(a("html head meta html head script script"))
 
-# Trainer().train()
+# # Trainer().train()
 # Trainer()._predict()
+# tags = "html head meta link meta link link link link title script div script a script script table tr td table tr td a img a img a img a img a img div a img table tr td a img a img a img script table tr td table tr td span a a a table tr td span a a table tr th th th tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td div br form table tr td span select option option option option option option option option option option option option option option option option option option option option option option option option input input br br div span script a a br a br center br br font a a a a a b a br br br a br br a br br a img script script noscript img br br table tr td span style div iframe"
+# print(Sword()._test(tags))

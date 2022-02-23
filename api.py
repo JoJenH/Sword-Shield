@@ -2,6 +2,7 @@ from shield.shield import find_from_tree
 from bs4 import BeautifulSoup
 from spider.spider import spider
 from sword.sword import Sword
+from toTable import write2table
 
 sword = Sword()
 

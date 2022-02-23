@@ -1,14 +1,9 @@
-from unittest import result
 from api import *
 from time import time
 
 
-url_list = [
-    "http://www.baidu.com",
-    "http://qq.com",
-    "http://www.zhihu.com"
-]
-
+with open("url_list.txt", encoding="utf-8") as f:
+    url_list = [line.strip() for line in f]
 
 if __name__ == '__main__':
     response = spider(url_list)
@@ -18,8 +13,8 @@ if __name__ == '__main__':
     for url in response:
         result[url] ={}
         result[url]["shield"] = shield(response[url])
-        # result[url]["sword"] = sword(response[url])
+        result[url]["sword"] = sword(response[url])
 
     print(time() - t)
 
-    print(result)
+    write2table(result)
