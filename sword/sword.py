@@ -176,12 +176,13 @@ class Sword():
         input_masks = encode_dict["attention_mask"]
         return (torch.LongTensor([input_ids, ]), torch.LongTensor([input_types, ]), torch.LongTensor([input_masks, ]))
     
-    def predict(self, tags):
+    def __call__(self, tags):
         result =  self.model(*self._process_data(tags))
         return torch.argmax(result, dim=1).detach().cpu().numpy().tolist()
 
 
-# a = Sword().predict("html head script script meta title body script")
-# print(a)
+a = Sword()
+print(a("html head meta html head script script"))
 
-Trainer().train()
+# Trainer().train()
+# Trainer()._predict()
