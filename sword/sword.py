@@ -8,6 +8,7 @@ import time
 from config.config import *
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# DEVICE = "cpu"
 
 class Bert_Model(nn.Module):
     def __init__(self, bert_path, classes=10):
@@ -107,7 +108,6 @@ class Trainer():
         i = 0
         with torch.no_grad():
             for ids, att, tpe, label in data_loader:
-                print(ids, att, tpe, label)
                 result_pred = model(ids.to(device), att.to(device), tpe.to(device))
                 result_pred = torch.argmax(result_pred, dim=1).detach().cpu().numpy().tolist()
                 label_pred.extend(result_pred)
@@ -174,24 +174,14 @@ class Sword():
         input_ids = encode_dict["input_ids"]
         input_types = encode_dict["token_type_ids"]
         input_masks = encode_dict["attention_mask"]
-        return (torch.LongTensor(input_ids), torch.LongTensor(input_types), torch.LongTensor(input_masks))
+        return (torch.LongTensor([input_ids, ]), torch.LongTensor([input_types, ]), torch.LongTensor([input_masks, ]))
     
     def predict(self, tags):
-        print(len(self._process_data(tags)))
-        return self.model(*self._process_data(tags))
-    # label_true, label_pred = [], []
-    # i = 0
-    # with torch.no_grad():
-    #     for ids, att, tpe, label in data_loader:
-    #         print(ids, att, tpe, label)
-    #         result_pred = model(ids.to(DEVICE), att.to(DEVICE), tpe.to(DEVICE))
-    #         result_pred = torch.argmax(result_pred, dim=1).detach().cpu().numpy().tolist()
-    #         label_pred.extend(result_pred)
-    #         i += 1
-    #         label_true.extend(label.squeeze().cpu().numpy().tolist())
-    # print("\n Test Accuracy = {} \n".format(accuracy_score(label_true, label_pred)))
-    # print(classification_report(label_true, label_pred, digits=4))
+        result =  self.model(*self._process_data(tags))
+        return torch.argmax(result, dim=1).detach().cpu().numpy().tolist()
 
 
-a = Sword().predict("html head script script meta title body script")
-print(a)
+# a = Sword().predict("html head script script meta title body script")
+# print(a)
+
+Trainer().train()
