@@ -7,11 +7,11 @@ import torch
 import time
 from config.config import *
 
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# DEVICE = "cpu"
+# DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+DEVICE = torch.device("cpu")
 
 class Bert_Model(nn.Module):
-    def __init__(self, bert_path, classes=10):
+    def __init__(self, bert_path, classes=2):
         super(Bert_Model, self).__init__()
         self.config = BertConfig.from_pretrained(bert_path)  # 导入模型超参数
         self.bert = BertModel.from_pretrained(bert_path)     # 加载预训练模型权重
