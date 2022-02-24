@@ -9,9 +9,7 @@
 
 #### 环境依赖
 1. requirements.txt
-2. Microsoft Visual C++ Build Tools
-3. Python3.8
-4. 多线程Linux
+2. Python
 
 
 
