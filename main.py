@@ -1,14 +1,9 @@
-from unittest import result
-from Func import *
+from api import *
 from time import time
 
 
-url_list = [
-    "http://www.baidu.com",
-    "http://qq.com",
-    "http://www.zhihu.com"
-]
-
+with open("url_list.txt", encoding="utf-8") as f:
+    url_list = [line.strip() for line in f]
 
 if __name__ == '__main__':
     response = spider(url_list)
@@ -22,4 +17,4 @@ if __name__ == '__main__':
 
     print(time() - t)
 
-    print(result)
+    write2table(result)

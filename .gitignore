@@ -11,3 +11,6 @@ static_graph_params.pdiparams.info
 static_graph_params.pdmodel
 env/*
 bin/*
+best_bert_model.pth
+bert_model/*
+*.xls
