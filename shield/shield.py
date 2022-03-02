@@ -1,4 +1,3 @@
-from unittest import result
 from tqdm import tqdm
 from sklearn.metrics import accuracy_score, classification_report
 from transformers import BertModel, BertTokenizer, BertConfig, AdamW, get_cosine_schedule_with_warmup
@@ -8,6 +7,7 @@ import torch
 import time
 from config.config import *
 from bs4 import BeautifulSoup
+
 
 # DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 DEVICE = torch.device("cpu")
@@ -186,7 +186,7 @@ class Shield():
         input_masks = encode_dict["attention_mask"]
         return (torch.LongTensor([input_ids, ]), torch.LongTensor([input_types, ]), torch.LongTensor([input_masks, ]))
     
-    def __call__(self, tags):
+    def __call__(self, tags: list) -> str:
         result =  self.model(*self._process_data(tags))
         label =  torch.argmax(result, dim=1).detach().cpu().numpy().tolist()[0]
         return self.label_map[label]
@@ -207,7 +207,4 @@ class Shield():
 # a = Sword()
 # print(a("html head meta html head script script"))
 
-# # Trainer().train()
-# Trainer()._predict()
-# tags = "html head meta link meta link link link link title script div script a script script table tr td table tr td a img a img a img a img a img div a img table tr td a img a img a img script table tr td table tr td span a a a table tr td span a a table tr th th th tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td a img td a br span td span tr td div br form table tr td span select option option option option option option option option option option option option option option option option option option option option option option option option input input br br div span script a a br a br center br br font a a a a a b a br br br a br br a br br a img script script noscript img br br table tr td span style div iframe"
-# print(Sword()._test(tags))
+# Trainer().train()

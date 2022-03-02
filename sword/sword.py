@@ -2,7 +2,7 @@ import pickle
 
 keyword_tree = pickle.load(open("data/keyword_tree.pickle", "rb"))
 
-def create_tree_by(filename):
+def create_tree_by(filename: str) -> None:
     global keyword_tree
     with open(filename, encoding="utf-8") as f:
         f = f.readlines()
@@ -24,7 +24,7 @@ def create_tree_by(filename):
 
 
 
-def find_from_tree(text):
+def find_from_tree(text: str) -> list:
     text = text.lower()
     keywords = []
     keyword = ""
