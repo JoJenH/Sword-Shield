@@ -1,9 +1,14 @@
-from shield.shield import find_from_tree
+from sword.sword import find_from_tree
 from bs4 import BeautifulSoup
 from spider.spider import spider
-from sword.sword import Sword
+from shield.shield import Shield
 from toTable import write2table
 
-sword = Sword()
+shield = Shield()
 
-shield = lambda text: find_from_tree(BeautifulSoup(text,"html.parser").find("body").get_text())
+# sword = lambda text: find_from_tree(BeautifulSoup(text,"html.parser").find("body").get_text())
+def sword(text):
+    try:
+        return find_from_tree(BeautifulSoup(text,"html.parser").find("body").get_text())
+    except:
+        return [text]

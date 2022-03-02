@@ -1,9 +1,12 @@
 import asyncio
 from pyppeteer import launch
 from config.config import *
+import time
 
 
 def spider(url_list):
+    t = time.time()
+    print("Spider Start")
     result = dict()
     async def get_page(url):
         try:
@@ -11,7 +14,8 @@ def spider(url_list):
                 ignoreHTTPSErrors=True,
                 args=['--disable-infobars', f'--window-size={WIDTH},{HEIGHT}',  '--blink-settings=imagesEnabled=false', '--no-sandbox'],
                 # executablePath = './bin/chrome-linux/chrome'
-                executablePath = './bin/chrome-win32/chrome.exe'
+                executablePath = './bin/chrome-win32/chrome.exe',
+                userDataDir = './tmp'
             )
             page = await browser.newPage()
             await page.goto(url)
@@ -20,9 +24,9 @@ def spider(url_list):
             result[url] = content
             await page.close()
         except Exception as e:
-            print(e)
             result[url] = f"ERROR:{e}"
 
     task = [get_page(url) for url in url_list]
     asyncio.get_event_loop().run_until_complete(asyncio.gather(*task))
+    print(f"Spider Finish, Spend {time.time() - t}s")
     return result

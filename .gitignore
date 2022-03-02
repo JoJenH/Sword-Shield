@@ -1,16 +1,7 @@
-Doc/*
 *__pycache__*
-Lib/*
-Scripts/*
-log/*
-final_model
-best_model
-pyvenv.cfg
-static_graph_params.pdiparams
-static_graph_params.pdiparams.info
-static_graph_params.pdmodel
 env/*
 bin/*
 best_bert_model.pth
 bert_model/*
 *.xls
+tmp/*

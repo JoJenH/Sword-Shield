@@ -11,7 +11,7 @@ def write2table(result):
 
     for x, url in enumerate(result):
         sheet.write(x+1, 0, url)
-        sheet.write(x+1, 1, result[url]["sword"])
-        sheet.write(x+1, 2, ",".join(result[url]["shield"]))
+        sheet.write(x+1, 1, result[url]["shield"])
+        sheet.write(x+1, 2, ",".join(result[url]["sword"]))
 
     book.save(str(time.time()).split(".")[0] + ".xls")
