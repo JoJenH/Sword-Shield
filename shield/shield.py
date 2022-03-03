@@ -22,7 +22,7 @@ class Bert_Model(nn.Module):
         
     def forward(self, input_ids, attention_mask=None, token_type_ids=None):
         outputs = self.bert(input_ids, attention_mask, token_type_ids)
-        out_pool = outputs[1]   # 池化
+        out_pool = outputs[1]
         logit = self.fc(out_pool) # 线性模型二分类
         return logit
 
@@ -37,7 +37,7 @@ class Trainer():
         # 初始化Dataloader
         self._create_dataloader()
 
-        
+
     def train(self):
         # 初始化Bert模型
         model = Bert_Model(BERT_PATH).to(DEVICE)
