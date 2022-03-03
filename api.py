@@ -6,7 +6,6 @@ from toTable import write2table
 
 shield = Shield()
 
-# sword = lambda text: find_from_tree(BeautifulSoup(text,"html.parser").find("body").get_text())
 def sword(text):
     try:
         return find_from_tree(BeautifulSoup(text,"html.parser").find("body").get_text())

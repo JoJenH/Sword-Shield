@@ -22,8 +22,8 @@ class Bert_Model(nn.Module):
         
     def forward(self, input_ids, attention_mask=None, token_type_ids=None):
         outputs = self.bert(input_ids, attention_mask, token_type_ids)
-        out_pool = outputs[1]   # 池化后的输出 [bs, config.hidden_size]
-        logit = self.fc(out_pool)   #  [bs, classes]
+        out_pool = outputs[1]   # 池化
+        logit = self.fc(out_pool) # 线性模型二分类
         return logit
 
 class Trainer():
@@ -36,6 +36,8 @@ class Trainer():
 
         # 初始化Dataloader
         self._create_dataloader()
+
+        
     def train(self):
         # 初始化Bert模型
         model = Bert_Model(BERT_PATH).to(DEVICE)
@@ -76,15 +78,15 @@ class Trainer():
 
         train_dataset = TensorDataset(*tuple(map(torch.LongTensor, train_data)))
         train_sampler = RandomSampler(train_dataset)  
-        self.train_loader = DataLoader(train_dataset, sampler=train_sampler, batch_size=MAX_LEN)
+        self.train_loader = DataLoader(train_dataset, sampler=train_sampler, batch_size=BATCH_SIZE)
         
         valid_dataset = TensorDataset(*tuple(map(torch.LongTensor, valid_data)))
         valid_sampler = RandomSampler(valid_dataset)  
-        self.valid_loader = DataLoader(valid_dataset, sampler=valid_sampler, batch_size=MAX_LEN)
+        self.valid_loader = DataLoader(valid_dataset, sampler=valid_sampler, batch_size=BATCH_SIZE)
 
         test_dataset = TensorDataset(*tuple(map(torch.LongTensor, test_data)))
         test_sampler = RandomSampler(test_dataset)  
-        self.test_loader = DataLoader(test_dataset, sampler=test_sampler, batch_size=MAX_LEN)
+        self.test_loader = DataLoader(test_dataset, sampler=test_sampler, batch_size=BATCH_SIZE)
 
     # 评估函数
     def _evaluate(_, model, data_loader, device):
@@ -207,4 +209,4 @@ class Shield():
 # a = Sword()
 # print(a("html head meta html head script script"))
 
-# Trainer().train()
+# Trainer()

@@ -5,3 +5,4 @@ best_bert_model.pth
 bert_model/*
 *.xls
 tmp/*
+.ipynb_checkpoints/*

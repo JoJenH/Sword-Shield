@@ -25,7 +25,7 @@ def create_tree_by(filename: str) -> None:
 
 
 def find_from_tree(text: str) -> list:
-    text = text.lower()
+    text = text.lower() + "\x01"
     keywords = []
     keyword = ""
 
@@ -37,6 +37,8 @@ def find_from_tree(text: str) -> list:
         char = text[i]
 
         if char in tree:
+            if "\x00" in tree:
+                keywords.append(keyword)
             if tree == keyword_tree:
                 next_i = i + 1
             keyword += char
@@ -57,4 +59,3 @@ def find_from_tree(text: str) -> list:
                 i += 1
     
     return keywords
-
