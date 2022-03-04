@@ -2,3 +2,8 @@ http://www.baidu.com
 http://qq.com
 http://www.zhihu.com
 http://127.0.0.1:5000/
+https://www.csdn.net/
+https://cn.bing.com/
+https://www.dingtalk.com/
+https://www.tencent.com/
+https://im.qq.com/

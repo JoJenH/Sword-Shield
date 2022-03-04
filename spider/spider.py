@@ -18,11 +18,13 @@ def spider(url_list: list) -> dict:
                 userDataDir = './tmp'
             )
             page = await browser.newPage()
+            print("Start:" + url)
             await page.goto(url)
             await asyncio.sleep(LOAD_TIME)
             content = await page.content()
             result[url] = content
             await page.close()
+            print("Finish:" + url)
         except Exception as e:
             result[url] = f"ERROR:{e}"
 

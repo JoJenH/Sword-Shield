@@ -206,7 +206,7 @@ class Shield():
         
 
 
-# a = Sword()
-# print(a("html head meta html head script script"))
+# a = Shield()
+# print(a("html head script script"))
 
-# Trainer()
+# Trainer()._predict()
