@@ -1,0 +1,14 @@
+最终测试记录：
+
+Test Accuracy = 0.9299238526445771 
+
+              precision    recall  f1-score   support
+
+           0     0.9433    0.9148    0.9288      4859
+           1     0.9173    0.9451    0.9310      4859
+
+    accuracy                         0.9299      9718
+   macro avg     0.9303    0.9299    0.9299      9718
+weighted avg     0.9303    0.9299    0.9299      9718
+
+
