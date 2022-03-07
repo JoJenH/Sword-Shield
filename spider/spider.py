@@ -4,7 +4,7 @@ from config.config import *
 import time
 
 
-def spider(url_list: list) -> dict:
+def spider(url_list: dict) -> dict:
     t = time.time()
     print("Spider Start")
     result = dict()

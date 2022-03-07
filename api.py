@@ -1,4 +1,4 @@
-from sword.sword import sword
+from sword.sword import sword as _sword
 from bs4 import BeautifulSoup
 from spider.spider import spider
 from shield.shield import Shield
@@ -8,6 +8,6 @@ shield = Shield()
 
 def sword(text):
     try:
-        return sword(BeautifulSoup(text,"html.parser").find("body").get_text())
+        return _sword(BeautifulSoup(text,"html.parser").find("body").get_text())
     except:
         return [text]
